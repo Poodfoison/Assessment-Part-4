@@ -118,13 +118,13 @@ app.post('/login', async (req, res) => {
 
 
 
-    app.get('/messages', auth, async (req, res) => {
+    app.get('/messages/sent', auth, async (req, res) => {
         try {
             const messages = await pool.query(`
-            SELECT message, time, senderid FROM messages
+            SELECT * FROM messages
             INNER JOIN users
-            ON senderid = userid
-            WHERE receiverid = $1
+            ON receiverid = userid
+            WHERE senderid = $1
             `,[req.users.userid])
     
     
@@ -134,10 +134,29 @@ app.post('/login', async (req, res) => {
             console.error(error.message);
         }
     })
+
+    app.get('/messages/received', auth, async (req, res) => {
+        try {
+            const messages = await pool.query(`
+            SELECT * FROM messages
+            INNER JOIN users
+            ON senderid = userid
+            WHERE receiversid = $1
+            `,[req.messages.receiversid])
+    
+    
+            res.json(messages.rows)
+    
+        } catch (error) {
+            console.error(error.message);
+        }
+    })
+
+  
     
     app.post('/messages', auth, async (req, res) => {
         try {
-            const { message, recieverid } = req.body
+            const { message, recieversid } = req.body
 
             const d = new Date();
             let date = d.toString();
@@ -147,7 +166,7 @@ app.post('/login', async (req, res) => {
             const newMessage = await pool.query(`
             INSERT INTO messages (messageid, message, time, senderid, recieverid ) VALUES
             ($1,$2,$3,$4,$5) RETURNING *
-            `, [newUID, message, date, userid, recieverid])
+            `, [newUID, message, date, userid, recieversid])
     
             res.json("Message sent");
         } catch (error) {
@@ -156,6 +175,21 @@ app.post('/login', async (req, res) => {
     })
     
 
+
+    app.get('/messages', auth, async (req, res) => {
+        try {
+            const messages = await pool.query(`
+            SELECT * FROM messages
+            `)
+    
+    
+            res.json(messages.rows)
+    
+        } catch (error) {
+            console.error(error.message);
+        }
+    })
+    
 
 pool.connect((err)=>{
     if (err){

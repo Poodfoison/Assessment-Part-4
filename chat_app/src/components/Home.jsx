@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
+import { ModalRegister } from "./ModalRegister";
 
 
 
 
 const Home = ({ setAuth }) => {
+    const [modalShow, setModalShow] = useState(false);
     const [inputs, setInputs] = useState({
         username: "",
         password: ""
@@ -96,6 +99,13 @@ const Home = ({ setAuth }) => {
                                 <div className="d-grid">
                                     <button className="btn btn-outline-success btn-login text-uppercase fw-bold" type="submit">Sign
                                         in</button>
+                                <br/>
+                                        <Button variant="outline-success" className="text-uppercase fw-bold" onClick={() => setModalShow(true)}>Sign Up</Button>
+          <ModalRegister
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+
+      />
                                 </div>
                             </form>
                         </div>

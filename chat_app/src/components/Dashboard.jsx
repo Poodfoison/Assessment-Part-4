@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  Container,Col, Row, Button, ListGroup, Card, Form   } from 'react-bootstrap';
+import {  Container,Col, Row, Button, Card, Form   } from 'react-bootstrap';
 
 
 const Dashboard = ({ setAuth }) => {
@@ -55,11 +55,11 @@ const Dashboard = ({ setAuth }) => {
        
             {account.map(accounts => {
                 return <div key={accounts.userid}>
-                    <Container style={{ backgroundColor:`white`}} >
+                    <Container className="border border-dark h-auto">
                     <Row >
     
         <Col md="auto">
-
+        <br/>
         <Card style={{ width: '18rem'}} >
         <Container >
             <br/>
@@ -69,47 +69,60 @@ const Dashboard = ({ setAuth }) => {
         <br/>
         
       <Card.Header className="fw-bolder text-center fs-4">Contacts:</Card.Header>
-      <ListGroup>
-        <ListGroup.Item className="fw-bold text-capitalize">Users </ListGroup.Item>
-        <ListGroup.Item className="fw-bold text-capitalize">Users </ListGroup.Item>
-        <ListGroup.Item className="fw-bold text-capitalize">Users </ListGroup.Item>
-        <ListGroup.Item className="fw-bold text-capitalize">Users </ListGroup.Item>
-
-      </ListGroup>
-  
+      <br/>
+      <div className="p-2 bg-light border border-dark h-10 align-bottom overflow-auto container-fluid" style= {{height: `300px`}}>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+            <p className="fw-bold text-capitalize">Users </p>
+ 
+          </div>
+     
 
     </Card>
     <br></br>
             <br></br>
       
-            <Button onClick={logout} variant="outline-success">Sign Out</Button>
+            <Button onClick={logout} variant="outline-success" className="btn-lg">Sign Out</Button>
                         </Col>
         <Col>
-
+        <br/>
         <h3>Chatbox</h3>
-          <div className="d-flex flex-column p-2 bg-light">
+        <h5>To: </h5>
+          <div className="p-2 bg-light border border-dark h-10 align-bottom overflow-auto container-fluid" style= {{height: `300px`}}>
             <p>User1: Hi, how are you?</p>
             <p>User2: I'm good, thanks for asking.</p>
             <p>User1: What have you been up to?</p>
             <p>User2: Just been busy with work.</p>
+       
+
+           
           </div>
+          <br/>
         <Form >
 
 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
   <Form.Label className="fw-bold">Message:</Form.Label>
   <Form.Control as="textarea"
                 id="messageForm" 
-                name="message"  
+                name="message" 
+                className="border border-dark" 
                
                 
   rows={5} style={{ resize: 'none'}} />
 </Form.Group>
 </Form>
-<Button type="submit" variant="outline-success" block>Submit</Button>
+<Button type="submit" variant="outline-success" className="float-end btn-lg" block>Send</Button>
         </Col>
       </Row>
                         
-      
+      <br/>
+      <br/>
                         </Container>
                 </div>
             })}

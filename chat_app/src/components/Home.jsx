@@ -97,10 +97,10 @@ const Home = ({ setAuth }) => {
 
 
                                 <div className="d-grid">
-                                    <button className="btn btn-outline-success btn-login text-uppercase fw-bold" type="submit">Sign
+                                    <button className="btn btn-outline-primary btn-login text-uppercase fw-bold" type="submit">Sign
                                         in</button>
                                 <br/>
-                                        <Button variant="outline-success" className="text-uppercase fw-bold" onClick={() => setModalShow(true)}>Sign Up</Button>
+                                        <Button variant="outline-primary" className="text-uppercase fw-bold" onClick={() => setModalShow(true)}>Sign Up</Button>
           <ModalRegister
         show={modalShow}
         onHide={() => setModalShow(false)}

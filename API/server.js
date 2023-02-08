@@ -117,56 +117,38 @@ app.post('/login', async (req, res) => {
     })     
 
 
-
-    app.get('/messages/sent', auth, async (req, res) => {
+    app.get('/contacts', auth, async(req,res) =>{
         try {
-            const messages = await pool.query(`
-            SELECT * FROM messages
-            INNER JOIN users
-            ON receiverid = userid
-            WHERE senderid = $1
-            `,[req.users.userid])
-    
-    
-            res.json(messages.rows)
+            
+            const account = await pool.query(`
+            SELECT userid,firstname, lastname FROM users`,)
+            res.json(account.rows)
     
         } catch (error) {
-            console.error(error.message);
-        }
-    })
+            console.log(error.message)
+    
+    
+            }
+    
+    })     
 
-    app.get('/messages/received', auth, async (req, res) => {
-        try {
-            const messages = await pool.query(`
-            SELECT * FROM messages
-            INNER JOIN users
-            ON senderid = userid
-            WHERE receiversid = $1
-            `,[req.messages.receiversid])
-    
-    
-            res.json(messages.rows)
-    
-        } catch (error) {
-            console.error(error.message);
-        }
-    })
+
+
 
   
     
     app.post('/messages', auth, async (req, res) => {
         try {
-            const { message, recieversid } = req.body
+            const { message } = req.body
 
             const d = new Date();
             let date = d.toString();
-            const userid = req.users.userid
             let newUID = uid()
     
             const newMessage = await pool.query(`
-            INSERT INTO messages (messageid, message, time, senderid, recieverid ) VALUES
-            ($1,$2,$3,$4,$5) RETURNING *
-            `, [newUID, message, date, userid, recieversid])
+            INSERT INTO messages (messageid, message, time, senderid ) VALUES
+            ($1,$2,$3,$4) RETURNING *
+            `, [newUID, message, date, req.users.userid])
     
             res.json("Message sent");
         } catch (error) {
@@ -176,10 +158,13 @@ app.post('/login', async (req, res) => {
     
 
 
-    app.get('/messages', auth, async (req, res) => {
+    app.get('/recieved', auth, async (req, res) => {
         try {
             const messages = await pool.query(`
-            SELECT * FROM messages
+            SELECT message, time, firstname, lastname  FROM messages
+            INNER JOIN users
+            ON users.userid = messages.senderid
+
             `)
     
     

@@ -164,7 +164,6 @@ app.post('/login', async (req, res) => {
             SELECT message, time, firstname, lastname  FROM messages
             INNER JOIN users
             ON users.userid = messages.senderid
-
             `)
     
     

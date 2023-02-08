@@ -3,6 +3,7 @@ import React, {  useState , useEffect } from "react";
 
 export const Incoming = ({ setAuth }) => {
     const [incoming, setIncoming] = useState([]);
+    const [containerRef, setContainerRef] = useState(null);
 
     const getMessage = async () => {
         try {
@@ -28,14 +29,15 @@ export const Incoming = ({ setAuth }) => {
 
         const interval = setInterval(() => {
             getMessage();
+            containerRef.scrollTop = containerRef.scrollHeight;
             }, 1000);
             return () => clearInterval(interval);
 
             
-    }, [])
+    }, [containerRef])
   return (
     <div>
-         <div className="p-2 bg-light border border-dark h-10 align-bottom overflow-auto container-fluid" style= {{height: `300px`}}>
+         <div ref={elem => setContainerRef(elem)}  className="p-2 bg-light border border-dark h-10 align-bottom overflow-auto container-fluid" style= {{height: `300px`}}>
          {incoming.map(incomings => {
                 return <div className="border-dark container">
                     <p className="m-0 sm-4 fw-bold text-capitalize text-wrap"><u>{incomings.firstname} {incomings.lastname}</u></p>
